@@ -150,7 +150,7 @@
       animation: glow-border 1.5s ease forwards;
     }
 
-    @keyframes glow-border {
+@keyframes glow-border {
       0% {
         box-shadow:
           0 0 6px rgba(255, 255, 255, 0.3),
@@ -331,7 +331,7 @@
       max-width: max-content;
     }
 
-    .card-left button:hover {
+.card-left button:hover {
       background-color: #ccc;
       box-shadow: 0 0 16px rgba(255, 255, 255, 0.6);
       transform: scale(1.05);
@@ -532,7 +532,7 @@
       display: none;
     }
 
-    .career-button {
+.career-button {
       background-color: #121212;
       color: #e0e0e0;
       border-radius: 12px;
@@ -652,7 +652,7 @@
       box-shadow: 0 0 8px #ffffff;
     }
 
-    /* Нижняя панель навигации */
+/* Нижняя панель навигации */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -1260,7 +1260,7 @@
       <div class="game-header">Игры</div>
       <div class="game-subtitle">Выберите игру для запуска.</div>
 
-      <div class="game-card">
+<div class="game-card">
         <div class="game-title">Подземелья</div>
         <a href="https://t.me/FOLLENSHAIDbot?startapp=dungeon" class="game-button" target="_blank">Запустить</a>
       </div>
@@ -1362,18 +1362,17 @@
   <div id="cabinet-page" class="cabinet-page">
     <div class="cabinet-container">
       <div class="avatar-section">
-          <div class="avatar" id="avatar">
-  <img src="https://i.postimg.cc/8zJ7JQ7Z/default-avatar.png" width="100" height="100" style="border-radius: 50%; width: 100%; height: 100%;" />
-</div>
-        
+        <div class="avatar" id="avatar">
+          <!-- Аватар будет вставлен через JavaScript -->
+        </div>
 
         <div class="level-username-wrapper">
           <div class="level-label" id="level-label">Юнга</div>
-          <div class="username" id="username">Пират</div>
+          <div class="username" id="username"><!-- Имя будет вставлено через JavaScript --></div>
         </div>
       </div>
 
-      <div class="cabinet-card">
+<div class="cabinet-card">
         <div class="card-header">
           <div>1100 <span class="pirate-currency">P‌</span></div>
           <button onclick="triggerVibration(); window.open('https://t.me/FOLLENSHAIDbot?startapp=a006ece711fd2bd0', '_blank')">Пополнить</button>
@@ -1446,7 +1445,7 @@
       </div>
     </div>
 
-    <!-- КЛАД -->
+<!-- КЛАД -->
     <div class="nav-item" id="treasure-nav-item">
       <div style="display: flex; flex-direction: column; align-items: center;">
         <svg class="icon-glow" width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -1510,7 +1509,7 @@
       <button class="tab-btn" onclick="showSlide(2)">Отменённые</button>
     </div>
 
-    <div class="slides">
+<div class="slides">
       <div class="slide active">
         <div class="product">
           <img src="https://i.postimg.cc/0j1R0gVK/photo-2025-08-10-00-05-37.jpg" />
@@ -1606,12 +1605,12 @@
     <div class="section profile" tabindex="0" onclick="handleProfileClick('Профиль')">
       <div class="profile-row">
         <div class="profile-details">
-          <div class="profile-name" id="profile-name">Пират</div>
+          <div class="profile-name" id="profile-username"><!-- Имя будет вставлено через JavaScript --></div>
           <div class="profile-label">Вольный моряк</div>
           <div class="profile-label">Номер профиля: <span id="profile-number">•••</span></div>
           <div class="profile-label">На FollenShaid с <span id="join-date">•••</span></div>
         </div>
-        <img src="https://i.postimg.cc/8zJ7JQ7Z/default-avatar.png" alt="Аватар" class="profile-pic" id="profile-avatar" />
+        <div class="profile-pic" id="profile-avatar-img"><!-- Аватар будет вставлен через JavaScript --></div>
       </div>
     </div>
 
@@ -1623,7 +1622,7 @@
         <div class="field-value">По документам, личному кабинету в банке или через Госуслуги</div>
       </div>
 
-      <div class="field-block" tabindex="0" onclick="handleProfileClick('https://t.me/FOLLENSHAIDbot?startapp=22f807ee776b6229')">
+<div class="field-block" tabindex="0" onclick="handleProfileClick('https://t.me/FOLLENSHAIDbot?startapp=22f807ee776b6229')">
         <div class="field-label">Для самозанятых</div>
         <div class="field-value">По профилю на Госуслугах, T-ID или Сбер ID</div>
       </div>
@@ -1646,393 +1645,388 @@
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- Ваш существующий код -->
-<script src="telegram-user.js"></script>
-
   <script>
-// Вызываем функцию при загрузке
-document.addEventListener('DOMContentLoaded', setupUserData);
+    // Инициализация данных пользователя Telegram
+    function initUserData() {
+      // Проверяем, что WebApp Telegram доступен
+      if (window.Telegram && Telegram.WebApp) {
+        const user = Telegram.WebApp.initDataUnsafe?.user;
+        
+        if (user) {
+          // Устанавливаем имя пользователя
+          const username = user.first_name || 'Пират';
+          document.getElementById('username').textContent = username;
+          document.getElementById('profile-username').textContent = username;
+          
+          // Устанавливаем аватар
+          const avatarUrl = user.photo_url;
+          const avatarElement = document.getElementById('avatar');
+          const profileAvatarElement = document.getElementById('profile-avatar-img');
+          
+          if (avatarUrl) {
+            avatarElement.innerHTML = `<img src="${avatarUrl}" width="140" height="140" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;" />`;
+            profileAvatarElement.innerHTML = `<img src="${avatarUrl}" width="60" height="60" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;" />`;
+          } else {
+            // Дефолтный аватар, если фото нет
+            const defaultAvatar = `
+              <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="70" cy="70" r="70" fill="#2E2E2E"/>
+                <text x="70" y="80" font-family="Arial" font-size="60" fill="white" text-anchor="middle" dominant-baseline="middle">${username.charAt(0).toUpperCase()}</text>
+              </svg>
+            `;
+            avatarElement.innerHTML = defaultAvatar;
+            profileAvatarElement.innerHTML = defaultAvatar.replace('140', '60').replace('70', '30').replace('60', '30').replace('80', '40');
+          }
+        }
+      }
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Показываем первый слайд на странице склада
-  if (document.querySelector('.slide')) {
-    showSlide(0);
-  }
-});
+    // Вызываем инициализацию при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      initUserData();
+      
+      // Показываем первый слайд на странице склада
+      if (document.querySelector('.slide')) {
+        showSlide(0);
+      }
+    });
 
-// Верхнее меню (вкладки)
-const tabItems = document.querySelectorAll('.tab-item[data-tab]');
-const tabContents = document.querySelectorAll('.tab-content');
+    // Верхнее меню (вкладки)
+    const tabItems = document.querySelectorAll('.tab-item[data-tab]');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-tabItems.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabItems.forEach(t => t.classList.remove('active'));
-    tabContents.forEach(c => c.classList.remove('active'));
+    tabItems.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabItems.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
 
-    tab.classList.add('active');
-    const target = tab.getAttribute('data-tab');
-    document.getElementById(target).classList.add('active');
-  });
-});
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
 
-// Поиск (главная страница)
-const searchInput = document.getElementById("searchInput");
-const searchContainer = document.getElementById("searchContainer");
-const cancelButton = document.getElementById("cancelButton");
+    // Поиск (главная страница)
+    const searchInput = document.getElementById("searchInput");
+    const searchContainer = document.getElementById("searchContainer");
+    const cancelButton = document.getElementById("cancelButton");
 
-searchInput.addEventListener("focus", () => {
-  cancelButton.classList.add("visible");
-});
+    searchInput.addEventListener("focus", () => {
+      cancelButton.classList.add("visible");
+    });
 
-cancelButton.addEventListener("click", () => {
-  searchInput.value = "";
-  searchInput.blur();
-  cancelButton.classList.remove("visible");
-  removeGlow();
-});
-
-searchInput.addEventListener("blur", () => {
-  setTimeout(() => {
-    if (searchInput.value.trim() === "") {
+    cancelButton.addEventListener("click", () => {
+      searchInput.value = "";
+      searchInput.blur();
       cancelButton.classList.remove("visible");
       removeGlow();
-    }
-  }, 150);
-});
-
-searchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    if (searchInput.value.trim() !== "") {
-      startGlow();
-    }
-  }
-});
-
-function startGlow() {
-  searchContainer.classList.add("glowing");
-  setTimeout(() => {
-    removeGlow();
-  }, 1500);
-}
-
-function removeGlow() {
-  searchContainer.classList.remove("glowing");
-}
-
-// Дождь (главная страница)
-const rainContainer = document.querySelector('.rain');
-const dropsCount = 100;
-
-for(let i = 0; i < dropsCount; i++) {
-  const drop = document.createElement('div');
-  drop.classList.add('drop');
-  drop.style.left = Math.random() * 100 + 'vw';
-  drop.style.animationDuration = (0.5 + Math.random()) + 's';
-  drop.style.animationDelay = (Math.random() * 5) + 's';
-  const width = 1 + Math.random() * 2;
-  drop.style.width = width + 'px';
-  drop.style.height = 10 + Math.random() * 15 + 'px';
-  rainContainer.appendChild(drop);
-}
-
-// Карусель (главная страница)
-const carousel = document.getElementById('carousel');
-const cards = carousel.querySelectorAll('.card');
-let index = 0;
-
-function updateDots() {
-  cards.forEach((card, cardIndex) => {
-    const dots = card.querySelectorAll('.dot');
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
     });
-  });
-}
 
-function scrollToCard(i) {
-  const card = cards[i];
-  if (card) {
-    carousel.scrollTo({
-      left: card.offsetLeft,
-      behavior: 'smooth',
+    searchInput.addEventListener("blur", () => {
+      setTimeout(() => {
+        if (searchInput.value.trim() === "") {
+          cancelButton.classList.remove("visible");
+          removeGlow();
+        }
+      }, 150);
     });
-    index = i;
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (searchInput.value.trim() !== "") {
+          startGlow();
+        }
+      }
+    });
+
+    function startGlow() {
+      searchContainer.classList.add("glowing");
+      setTimeout(() => {
+        removeGlow();
+      }, 1500);
+    }
+
+    function removeGlow() {
+      searchContainer.classList.remove("glowing");
+    }
+
+    // Дождь (главная страница)
+    const rainContainer = document.querySelector('.rain');
+    const dropsCount = 100;
+
+    for(let i = 0; i < dropsCount; i++) {
+      const drop = document.createElement('div');
+      drop.classList.add('drop');
+      drop.style.left = Math.random() * 100 + 'vw';
+      drop.style.animationDuration = (0.5 + Math.random()) + 's';
+      drop.style.animationDelay = (Math.random() * 5) + 's';
+      const width = 1 + Math.random() * 2;
+      drop.style.width = width + 'px';
+      drop.style.height = 10 + Math.random() * 15 + 'px';
+      rainContainer.appendChild(drop);
+    }
+
+    // Карусель (главная страница)
+    const carousel = document.getElementById('carousel');
+    const cards = carousel.querySelectorAll('.card');
+    let index = 0;
+
+    function updateDots() {
+      cards.forEach((card, cardIndex) => {
+        const dots = card.querySelectorAll('.dot');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      });
+    }
+
+    function scrollToCard(i) {
+      const card = cards[i];
+      if (card) {
+        carousel.scrollTo({
+          left: card.offsetLeft,
+          behavior: 'smooth',
+        });
+        index = i;
+        updateDots();
+      }
+    }
+
+    setInterval(() => {
+      index = (index + 1) % cards.length;
+      scrollToCard(index);
+    }, 4000);
+
+    carousel.addEventListener('scroll', () => {
+      const scrollLeft = carousel.scrollLeft;
+      let closestIndex = 0;
+      let minDiff = Infinity;
+      cards.forEach((card, i) => {
+        const diff = Math.abs(card.offsetLeft - scrollLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIndex = i;
+        }
+      });
+      index = closestIndex;
+      updateDots();
+    });
+
+    cards.forEach((card, cardIndex) => {
+      const dots = card.querySelectorAll('.dot');
+      dots.forEach((dot, dotIndex) => {
+        dot.addEventListener('click', () => {
+          scrollToCard(dotIndex);
+        });
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    });
+    cards.forEach(card => observer.observe(card));
+
     updateDots();
-  }
-}
 
-setInterval(() => {
-  index = (index + 1) % cards.length;
-  scrollToCard(index);
-}, 4000);
-
-carousel.addEventListener('scroll', () => {
-  const scrollLeft = carousel.scrollLeft;
-  let closestIndex = 0;
-  let minDiff = Infinity;
-  cards.forEach((card, i) => {
-    const diff = Math.abs(card.offsetLeft - scrollLeft);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closestIndex = i;
-    }
-  });
-  index = closestIndex;
-  updateDots();
-});
-
-cards.forEach((card, cardIndex) => {
-  const dots = card.querySelectorAll('.dot');
-  dots.forEach((dot, dotIndex) => {
-    dot.addEventListener('click', () => {
-      scrollToCard(dotIndex);
-    });
-  });
-});
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-});
-cards.forEach(card => observer.observe(card));
-
-updateDots();
-
-// Функционал каюты
-const careerDescriptions = {
-  "Юнга": "Ты только что прибыл на корабль! Начало пиратского пути.",
-  "Крыса трюма": "Ты уже освоился на судне, но пока прячешься в трюме.",
-  "Корсар": "Ты стал настоящим пиратом и уже участвуешь в абордаже.",
-  "Штурман": "Ты прокладываешь курс команды и ведёшь корабль вперёд.",
-  "Бывалый пёс": "Ты повидал штормы, битвы и сокровища. Опытный ветеран!"
-};
-
-function triggerVibration() {
-  try {
-    if (window.Telegram?.WebApp?.HapticFeedback?.impactOccurred) {
-      Telegram.WebApp.HapticFeedback.impactOccurred('light');
-    }
-  } catch (e) {
-    console.warn('Vibration not supported', e);
-  }
-}
-
-function changeLevel(level, buttonElement) {
-  const levelLabel = document.getElementById('level-label');
-  levelLabel.textContent = level;
-
-  const buttons = document.querySelectorAll('.career-button');
-  buttons.forEach(btn => btn.classList.remove('active'));
-  buttonElement.classList.add('active');
-
-  triggerVibration();
-}
-
-function openCareerPopup(level) {
-  const overlay = document.getElementById('career-popup-overlay');
-  const title = document.getElementById('career-title');
-  const text = document.getElementById('career-text');
-  title.textContent = level;
-  text.textContent = careerDescriptions[level] || 'Информация отсутствует';
-  overlay.style.display = 'flex';
-  triggerVibration();
-}
-
-function closeCareerPopup() {
-  const overlay = document.getElementById('career-popup-overlay');
-  overlay.style.display = 'none';
-}
-
-// Навигация между страницами
-const mainPage = document.getElementById('main-page');
-const cabinetPage = document.getElementById('cabinet-page');
-const treasurePage = document.getElementById('treasure-page');
-const storagePage = document.getElementById('storage-page');
-const navItems = document.querySelectorAll('.bottom-nav .nav-item');
-
-// Функция для показа страницы
-function showPage(pageElement) {
-  // Список всех страниц
-  const allPages = [mainPage, cabinetPage, treasurePage, storagePage];
-  
-  // Скрываем все страницы
-  allPages.forEach(page => {
-    if (page) page.style.display = 'none';
-  });
-  
-  // Показываем только нужную страницу
-  if (pageElement) {
-    pageElement.style.display = 'block';
-    
-    // Для страницы клада используем flex
-    if (pageElement.id === 'treasure-page') {
-      pageElement.style.display = 'flex';
-    }
-  }
-  
-  triggerVibration();
-}
-
-// Обновление активного состояния навигации
-function updateActiveNav(activeItem) {
-  navItems.forEach(item => {
-    item.classList.remove('active');
-    const indicator = item.querySelector('.active-indicator');
-    if (indicator) indicator.remove();
-  });
-  
-  activeItem.classList.add('active');
-  const indicator = document.createElement('div');
-  indicator.className = 'active-indicator';
-  activeItem.appendChild(indicator);
-}
-
-// Обработчики для навигации
-document.getElementById('cabinet-nav-item').addEventListener('click', function(e) {
-  e.preventDefault();
-  showPage(cabinetPage);
-  updateActiveNav(this);
-});
-
-document.getElementById('treasure-nav-item').addEventListener('click', function(e) {
-  e.preventDefault();
-  showPage(treasurePage);
-  updateActiveNav(this);
-});
-
-document.getElementById('storage-nav-item').addEventListener('click', function(e) {
-  e.preventDefault();
-  showPage(storagePage);
-  updateActiveNav(this);
-});
-
-// Обработчик для главной страницы (если есть соответствующий элемент навигации)
-const mainNavItem = document.getElementById('main-nav-item');
-if (mainNavItem) {
-  mainNavItem.addEventListener('click', function(e) {
-    e.preventDefault();
-    showPage(mainPage);
-    updateActiveNav(this);
-  });
-}
-
-// Обработчики для кнопок на странице клада
-document.querySelectorAll('.treasure-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    triggerVibration();
-    window.open(`https://t.me/FOLLENSHAIDbot?startapp=treasure_${btn.textContent.toLowerCase()}`, '_blank');
-  });
-});
-
-// Функции для работы склада
-function showSlide(index) {
-  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', i === index);
-  });
-  document.querySelectorAll('.slide').forEach((slide, i) => {
-    slide.classList.toggle('active', i === index);
-  });
-  triggerVibration();
-}
-
-function openOrderForm(productName) {
-  triggerVibration();
-  alert(`Заказ на товар: ${productName}`);
-}
-
-// Инициализация - показываем главную страницу по умолчанию
-showPage(mainPage);
-if (mainNavItem) {
-  updateActiveNav(mainNavItem);
-} else {
-  updateActiveNav(document.getElementById('cabinet-nav-item'));
-}
-
-// Функции для страницы расходов
-function goBackToCabinet() {
-  document.getElementById('expenses-page').style.display = 'none';
-  triggerVibration();
-}
-
-// Обработчик для кнопки "Расходы" в каюте
-document.querySelector('.info-box.clickable').addEventListener('click', function(e) {
-  e.preventDefault();
-  document.getElementById('expenses-page').style.display = 'block';
-  triggerVibration();
-  
-  // Инициализация календаря расходов (если нужно)
-  initExpensesCalendar();
-});
-
-// Функция для инициализации календаря (если её ещё нет)
-function initExpensesCalendar() {
-  // Ваш код для работы с календарем расходов
-  // (убедитесь, что он уже есть в вашем скрипте)
-}
-// Функция для возврата в каюту
-function goBackToCabinet() {
-  document.getElementById('profile-page').style.display = 'none';
-  document.getElementById('cabinet-page').style.display = 'block';
-  triggerVibration();
-}
-
-// Обработчик для кнопки "Управление профилем" в каюте
-document.querySelector('a[href*="d339d82edd45176b"] button').addEventListener('click', function(e) {
-  e.preventDefault();
-  document.getElementById('profile-page').style.display = 'block';
-  document.getElementById('cabinet-page').style.display = 'none';
-  triggerVibration();
-});
-  </script>
-<script>
-// Уникальные имена функций чтобы не было конфликтов
-function initTgApp_FS() {
-  // Проверяем что это Telegram WebApp
-  if (!window.Telegram?.WebApp) return;
-  
-  console.log("Telegram WebApp detected");
-  
-  try {
-    const tg = Telegram.WebApp;
-    tg.expand(); // Раскрываем на весь экран
-    
-    // Безопасное обновление данных
-    const safeUpdate = (id, value, attr = 'textContent') => {
-      const el = document.getElementById(id);
-      if (el) el[attr] = value;
+    // Функционал каюты
+    const careerDescriptions = {
+      "Юнга": "Ты только что прибыл на корабль! Начало пиратского пути.",
+      "Крыса трюма": "Ты уже освоился на судне, но пока прячешься в трюме.",
+      "Корсар": "Ты стал настоящим пиратом и уже участвуешь в абордаже.",
+      "Штурман": "Ты прокладываешь курс команды и ведёшь корабль вперёд.",
+      "Бывалый пёс": "Ты повидал штормы, битвы и сокровища. Опытный ветеран!"
     };
-    
-    // Пробуем получить данные пользователя
-    const user = tg.initDataUnsafe?.user;
-    if (!user) {
-      console.log("User data not available");
-      return;
-    }
-    
-    // Обновляем только если элементы существуют
-    safeUpdate('username', user.first_name || "Пират");
-    safeUpdate('profile-name', user.first_name || "Пират");
-    
-    if (user.photo_url) {
-      safeUpdate('avatar', user.photo_url, 'src');
-      safeUpdate('profile-avatar', user.photo_url, 'src');
-    }
-    
-  } catch (e) {
-    console.error("Tg init error:", e);
-  }
-}
 
-// Запускаем после полной загрузки страницы
-if (document.readyState === 'complete') {
-  initTgApp_FS();
-} else {
-  window.addEventListener('load', initTgApp_FS);
-}
-</script>
+    function triggerVibration() {
+      try {
+        if (window.Telegram?.WebApp?.HapticFeedback?.impactOccurred) {
+          Telegram.WebApp.HapticFeedback.impactOccurred('light');
+        }
+      } catch (e) {
+        console.warn('Vibration not supported', e);
+      }
+    }
+
+    function changeLevel(level, buttonElement) {
+      const levelLabel = document.getElementById('level-label');
+      levelLabel.textContent = level;
+
+      const buttons = document.querySelectorAll('.career-button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      buttonElement.classList.add('active');
+
+      triggerVibration();
+    }
+
+    function openCareerPopup(level) {
+      const overlay = document.getElementById('career-popup-overlay');
+      const title = document.getElementById('career-title');
+      const text = document.getElementById('career-text');
+      title.textContent = level;
+      text.textContent = careerDescriptions[level] || 'Информация отсутствует';
+      overlay.style.display = 'flex';
+      triggerVibration();
+    }
+
+    function closeCareerPopup() {
+      const overlay = document.getElementById('career-popup-overlay');
+      overlay.style.display = 'none';
+    }
+
+    // Навигация между страницами
+    const mainPage = document.getElementById('main-page');
+    const cabinetPage = document.getElementById('cabinet-page');
+    const treasurePage = document.getElementById('treasure-page');
+    const storagePage = document.getElementById('storage-page');
+    const navItems = document.querySelectorAll('.bottom-nav .nav-item');
+
+    // Функция для показа страницы
+    function showPage(pageElement) {
+      // Список всех страниц
+      const allPages = [mainPage, cabinetPage, treasurePage, storagePage];
+      
+      // Скрываем все страницы
+      allPages.forEach(page => {
+        if (page) page.style.display = 'none';
+      });
+      
+      // Показываем только нужную страницу
+      if (pageElement) {
+        pageElement.style.display = 'block';
+        
+        // Для страницы клада используем flex
+        if (pageElement.id === 'treasure-page') {
+          pageElement.style.display = 'flex';
+        }
+      }
+      
+      triggerVibration();
+    }
+
+    // Обновление активного состояния навигации
+    function updateActiveNav(activeItem) {
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        const indicator = item.querySelector('.active-indicator');
+        if (indicator) indicator.remove();
+      });
+      
+      activeItem.classList.add('active');
+      const indicator = document.createElement('div');
+      indicator.className = 'active-indicator';
+      activeItem.appendChild(indicator);
+    }
+
+    // Обработчики для навигации
+    document.getElementById('cabinet-nav-item').addEventListener('click', function(e) {
+      e.preventDefault();
+      showPage(cabinetPage);
+      updateActiveNav(this);
+    });
+
+    document.getElementById('treasure-nav-item').addEventListener('click', function(e) {
+      e.preventDefault();
+      showPage(treasurePage);
+      updateActiveNav(this);
+    });
+
+    document.getElementById('storage-nav-item').addEventListener('click', function(e) {
+      e.preventDefault();
+      showPage(storagePage);
+      updateActiveNav(this);
+    });
+
+    // Обработчик для главной страницы (если есть соответствующий элемент навигации)
+    const mainNavItem = document.getElementById('main-nav-item');
+    if (mainNavItem) {
+      mainNavItem.addEventListener('click', function(e) {
+        e.preventDefault();
+        showPage(mainPage);
+        updateActiveNav(this);
+      });
+    }
+
+    // Обработчики для кнопок на странице клада
+    document.querySelectorAll('.treasure-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        triggerVibration();
+        window.open(`https://t.me/FOLLENSHAIDbot?startapp=treasure_${btn.textContent.toLowerCase()}`, '_blank');
+      });
+    });
+
+    // Функции для работы склада
+    function showSlide(index) {
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.slide').forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      triggerVibration();
+    }
+
+    function openOrderForm(productName) {
+      triggerVibration();
+      alert(`Заказ на товар: ${productName}`);
+    }
+
+    // Инициализация - показываем главную страницу по умолчанию
+    showPage(mainPage);
+    if (mainNavItem) {
+      updateActiveNav(mainNavItem);
+    } else {
+      updateActiveNav(document.getElementById('cabinet-nav-item'));
+    }
+
+    // Функции для страницы расходов
+    function goBackToCabinet() {
+      document.getElementById('expenses-page').style.display = 'none';
+      triggerVibration();
+    }
+
+    // Обработчик для кнопки "Расходы" в каюте
+    document.querySelector('.info-box.clickable').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('expenses-page').style.display = 'block';
+      triggerVibration();
+      
+      // Инициализация календаря расходов (если нужно)
+      initExpensesCalendar();
+    });
+
+    // Функция для инициализации календаря (если её ещё нет)
+    function initExpensesCalendar() {
+      // Ваш код для работы с календарем расходов
+      // (убедитесь, что он уже есть в вашем скрипте)
+    }
+    // Функция для возврата в каюту
+    function goBackToCabinet() {
+      document.getElementById('profile-page').style.display = 'none';
+      document.getElementById('cabinet-page').style.display = 'block';
+      triggerVibration();
+    }
+
+    // Обработчик для кнопки "Управление профилем" в каюте
+    document.querySelector('a[href*="d339d82edd45176b"] button').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('profile-page').style.display = 'block';
+      document.getElementById('cabinet-page').style.display = 'none';
+      triggerVibration();
+    });
+
+    function handleProfileClick(action) {
+      triggerVibration();
+      if (typeof action === 'string' && action.startsWith('http')) {
+        window.open(action, '_blank');
+      } else {
+        // Другая обработка клика
+      }
+    }
+  </script>
 </body>
 </html>
