@@ -1989,52 +1989,50 @@ document.querySelector('a[href*="d339d82edd45176b"] button').addEventListener('c
 });
   </script>
 <script>
-// 1. Безопасная проверка Telegram WebApp
-function isTelegram() {
-  return !!(window.Telegram && Telegram.WebApp);
-}
-
-// 2. Основная функция (не мешает вашему коду)
-function initTelegramFeatures() {
-  if (!isTelegram()) return;
+// Уникальные имена функций чтобы не было конфликтов
+function initTgApp_FS() {
+  // Проверяем что это Telegram WebApp
+  if (!window.Telegram?.WebApp) return;
+  
+  console.log("Telegram WebApp detected");
   
   try {
     const tg = Telegram.WebApp;
     tg.expand(); // Раскрываем на весь экран
     
-    // 3. Пытаемся получить данные (если доступно)
-    const user = tg.initDataUnsafe?.user;
-    if (!user) return;
-    
-    // 4. Аккуратно обновляем только нужные элементы
-    const updateIfExists = (id, value) => {
+    // Безопасное обновление данных
+    const safeUpdate = (id, value, attr = 'textContent') => {
       const el = document.getElementById(id);
-      if (el) el.textContent = value;
+      if (el) el[attr] = value;
     };
     
-    // Обновляем имя
-    const displayName = user.first_name || "Пират";
-    updateIfExists('username', displayName);
-    updateIfExists('profile-name', displayName);
+    // Пробуем получить данные пользователя
+    const user = tg.initDataUnsafe?.user;
+    if (!user) {
+      console.log("User data not available");
+      return;
+    }
     
-    // Обновляем аватар (если есть и элемент существует)
+    // Обновляем только если элементы существуют
+    safeUpdate('username', user.first_name || "Пират");
+    safeUpdate('profile-name', user.first_name || "Пират");
+    
     if (user.photo_url) {
-      const avatar = document.querySelector('#avatar img');
-      if (avatar) avatar.src = user.photo_url;
-      
-      const profileAvatar = document.getElementById('profile-avatar');
-      if (profileAvatar) profileAvatar.src = user.photo_url;
+      safeUpdate('avatar', user.photo_url, 'src');
+      safeUpdate('profile-avatar', user.photo_url, 'src');
     }
     
   } catch (e) {
-    console.log("Telegram features error:", e);
+    console.error("Tg init error:", e);
   }
 }
 
-// 5. Запускаем после полной загрузки ВАШЕГО кода
-window.addEventListener('load', function() {
-  setTimeout(initTelegramFeatures, 500); // Даём время вашему коду инициализироваться
-});
+// Запускаем после полной загрузки страницы
+if (document.readyState === 'complete') {
+  initTgApp_FS();
+} else {
+  window.addEventListener('load', initTgApp_FS);
+}
 </script>
 </body>
 </html>
