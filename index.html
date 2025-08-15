@@ -1908,19 +1908,22 @@
       triggerVibration();
     }
 
-    // Обновление активного состояния навигации
-    function updateActiveNav(activeItem) {
-      navItems.forEach(item => {
-        item.classList.remove('active');
-        const indicator = item.querySelector('.active-indicator');
-        if (indicator) indicator.remove();
-      });
-      
-      activeItem.classList.add('active');
-      const indicator = document.createElement('div');
-      indicator.className = 'active-indicator';
-      activeItem.appendChild(indicator);
-    }
+   // Обновление активного состояния навигации
+function updateActiveNav(activeItem) {
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    const indicator = item.querySelector('.active-indicator');
+    if (indicator) indicator.remove();
+  });
+  
+  // Добавляем активное состояние только если передан элемент
+  if (activeItem) {
+    activeItem.classList.add('active');
+    const indicator = document.createElement('div');
+    indicator.className = 'active-indicator';
+    activeItem.appendChild(indicator);
+  }
+}
 
     // Обработчики для навигации
     document.getElementById('cabinet-nav-item').addEventListener('click', function(e) {
@@ -1977,11 +1980,7 @@
 
     // Инициализация - показываем главную страницу по умолчанию
     showPage(mainPage);
-    if (mainNavItem) {
-      updateActiveNav(mainNavItem);
-    } else {
-      updateActiveNav(document.getElementById('cabinet-nav-item'));
-    }
+   
 
     // Функции для страницы расходов
     function goBackToCabinet() {
