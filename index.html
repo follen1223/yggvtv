@@ -1989,114 +1989,66 @@ document.querySelector('a[href*="d339d82edd45176b"] button').addEventListener('c
 });
   </script>
 <script>
-// ==================== ОТЛАДКА ====================
-console.log("Скрипт запущен"); // Проверка загрузки скрипта
-
-// ==================== ТЕЛЕГРАМ ФУНКЦИИ ====================
-function isTelegramWebApp() {
-  const isWebApp = !!(window.Telegram && Telegram.WebApp);
-  console.log("Проверка Telegram WebApp:", isWebApp);
-  return isWebApp;
-}
-
-function getUserData() {
-  if (!isTelegramWebApp()) {
-    console.log("Не в Telegram WebApp");
-    return null;
-  }
-  
-  try {
-    const user = Telegram.WebApp.initDataUnsafe?.user;
-    console.log("Данные пользователя:", user);
-    return user;
-  } catch (e) {
-    console.error("Ошибка получения данных:", e);
-    return null;
-  }
-}
-
-function updateUI(user) {
-  if (!user) {
-    console.log("Нет данных пользователя для обновления UI");
+document.addEventListener('DOMContentLoaded', async () => {
+  // Проверяем, что это Telegram WebApp
+  if (!window.Telegram?.WebApp) {
+    applyDefaultData();
     return;
   }
 
-  // 1. Обновляем имя
-  const username = user.username ? @${user.username} : user.first_name || "Пират";
-  console.log("Устанавливаем имя:", username);
-
-  // Каюта
-  const cabinUsername = document.getElementById('username');
-  if (cabinUsername) {
-    cabinUsername.textContent = username;
-    console.log("Имя в каюте обновлено");
-  } else {
-    console.error("Элемент #username не найден");
-  }
-
-  // Профиль
-  const profileName = document.getElementById('profile-name');
-  if (profileName) {
-    profileName.textContent = username;
-    console.log("Имя в профиле обновлено");
-  } else {
-    console.error("Элемент #profile-name не найден");
-  }
-
-  // 2. Обновляем аватар
-  if (user.photo_url) {
-    console.log("Обновляем аватар с URL:", user.photo_url);
-
-    // Каюта
-    const cabinAvatar = document.querySelector('#avatar img');
-    if (cabinAvatar) {
-      cabinAvatar.src = user.photo_url;
-      console.log("Аватар в каюте обновлён");
-    } else {
-      console.error("Аватар каюты (#avatar img) не найден");
-    }
-
-    // Профиль
-    const profileAvatar = document.getElementById('profile-avatar');
-    if (profileAvatar) {
-      profileAvatar.src = user.photo_url;
-      console.log("Аватар профиля обновлён");
-    } else {
-      console.error("Аватар профиля (#profile-avatar) не найден");
-    }
-  }
-}
-
-// ==================== ИНИЦИАЛИЗАЦИЯ ====================
-function initApp() {
-  console.log("Инициализация приложения...");
+  const tgWebApp = Telegram.WebApp;
   
-  if (isTelegramWebApp()) {
-    try {
-      Telegram.WebApp.expand();
-      console.log("WebApp развёрнут на весь экран");
-    } catch (e) {
-      console.error("Ошибка развёртывания:", e);
+  try {
+    // 1. Пытаемся получить данные без запроса
+    if (tgWebApp.initDataUnsafe?.user) {
+      updateUserUI(tgWebApp.initDataUnsafe.user);
+      return;
     }
+
+    // 2. Запрашиваем доступ, если нужно
+    const granted = await tgWebApp.requestAccess();
+    if (granted && tgWebApp.initDataUnsafe?.user) {
+      updateUserUI(tgWebApp.initDataUnsafe.user);
+    } else {
+      throw new Error('Доступ не предоставлен');
+    }
+  } catch (error) {
+    console.warn('Ошибка:', error.message);
+    applyDefaultData();
   }
-
-  // Даём время на инициализацию WebApp
-  setTimeout(() => {
-    const user = getUserData();
-    updateUI(user);
-  }, 300);
-}
-
-// Запускаем приложение
-document.addEventListener('DOMContentLoaded', function() {
-  console.log("DOM полностью загружен");
-  initApp();
 });
 
-// Альтернативный запуск для SPA
-if (document.readyState === 'complete') {
-  console.log("Страница уже загружена");
-  initApp();
+function updateUserUI(user) {
+  // Проверяем наличие обязательных полей
+  if (!user?.first_name) {
+    applyDefaultData();
+    return;
+  }
+
+  // Безопасное обновление UI
+  const safeUpdate = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = value;
+  };
+
+  safeUpdate('#username', user.first_name);
+  safeUpdate('#profile-name', user.first_name);
+
+  // Аватар только если есть явное согласие
+  if (user.photo_url && Telegram.WebApp.hasAccessTo('user_photos')) {
+    document.querySelectorAll('.user-avatar').forEach(img => {
+      img.src = user.photo_url;
+    });
+  }
+}
+
+function applyDefaultData() {
+  document.querySelectorAll('.username').forEach(el => {
+    el.textContent = 'Пират';
+  });
+  document.querySelectorAll('.user-avatar').forEach(img => {
+    img.src = 'default-avatar.png';
+  });
 }
 </script>
 </body>
