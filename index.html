@@ -242,34 +242,35 @@
     }
 /* Карусель */
 .carousel {
-  margin-top: 20px;
+  margin-top: 15px; /* Уменьшен отступ сверху */
   width: 100%;
-  height: 180px;
+  height: 140px; /* Уменьшена высота */
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   scroll-snap-type: x mandatory;
-  padding: 0 16px;
+  padding: 0 16px 25px; /* Добавлен отступ снизу для точек */
   box-sizing: border-box;
   scroll-behavior: smooth;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  position: relative; /* Для позиционирования точек */
 }
 
 .carousel::-webkit-scrollbar {
   display: none;
 }
-
+    
 .card {
   display: inline-flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 280px;
-  height: 160px;
-  margin-right: 16px;
-  padding: 20px;
+  justify-content: center; /* Изменено для компактности */
+  width: 260px; /* Слегка уменьшена ширина */
+  height: 100px; /* Значительно уменьшена высота */
+  margin-right: 14px; /* Уменьшен отступ между карточками */
+  padding: 12px 15px;
   scroll-snap-align: start;
-  border-radius: 16px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -293,71 +294,124 @@
 .card-left {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center; /* Центрируем содержимое */
   height: 100%;
+  padding-right: 10px;
 }
 
 .card-left h2 {
-  font-size: 18px;
+  font-size: 15px; /* Уменьшен размер шрифта */
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 6px 0; /* Уменьшен отступ снизу */
   color: #fff;
-  line-height: 1.3;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .card-left button {
-  background-color: #ffffff; /* Изменено на белый */
-  color: #000000; /* Черный текст для контраста */
-  padding: 8px 16px;
-  font-size: 14px;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px 10px; /* Уменьшен размер кнопки */
+  font-size: 12px; /* Уменьшен размер шрифта */
   font-weight: 700;
   border: none;
-  border-radius: 20px;
+  border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   align-self: flex-start;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  margin-top: 0;
 }
 
 .card-left button:hover {
-  background-color: #f0f0f0; /* Светло-серый при наведении */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+  background-color: #f0f0f0;
+  transform: translateY(-1px); /* Уменьшен эффект при наведении */
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.3);
 }
 
 .card-left button:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
 .card svg {
-  width: 40px;
-  height: 40px;
+  width: 28px; /* Уменьшен размер иконки */
+  height: 28px;
   fill: #fff;
   opacity: 0.85;
-  margin-left: 12px;
+  margin-left: 10px;
   flex-shrink: 0;
 }
 
-.dots {
+.carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
   display: flex;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 12px;
+  flex-direction: row; /* Явно указываем горизонтальное направление */
+  flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
+  align-items: center;
+  justify-content: center; /* Центрируем точки */
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  z-index: 10;
+  /* Важно: сбрасываем все возможные наследуемые стили */
+  margin: 0;
+  list-style: none;
+}.carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  flex-direction: row; /* Явно указываем горизонтальное направление */
+  flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
+  align-items: center;
+  justify-content: center; /* Центрируем точки */
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  z-index: 10;
+  /* Важно: сбрасываем все возможные наследуемые стили */
+  margin: 0;
+  list-style: none;
 }
 
+/* Точки */
 .dot {
+  display: inline-block; /* На случай, если flex не сработает */
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s;
 }
 
 .dot.active {
-  background-color: #ffffff; /* Изменено на белый */
+  background-color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+}
+
+.dot.active {
+  background-color: #ffffff;
   transform: scale(1.2);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+}
+.card {
+  position: relative;
+  padding-bottom: 25px; /* Место для точек */
+}
+
+.card .dots {
+  position: absolute;
+  right: 15px;
+  bottom: 5px;
+  justify-content: flex-end;
 }
     
     /* Стили для каюты */
